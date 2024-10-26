@@ -1,3 +1,4 @@
+import AddAndRemoveButton from "@/component/addAndRemoveButton/addAndRemoveButton";
 import Image from "next/image";
 
 interface CastMember {
@@ -46,7 +47,7 @@ const MovieDetailsPage = async ({ params }: { params: { id: string } }) => {
   const movie = await res.json()
 
 
-  const castRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`, {
+  const castRes = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`, {
     next: {
       revalidate: 60
     }
@@ -54,36 +55,45 @@ const MovieDetailsPage = async ({ params }: { params: { id: string } }) => {
   const creditCast = await castRes.json()
 
 
-  const recommendationResponse = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/recommendations?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`)
+  const recommendationResponse = await fetch(`https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`)
   const recommendationData = await recommendationResponse.json()
 
-  
+
 
 
   return (
     <div className="mx-10">
-      <div className=" w-1/3 mx-auto py-8">
-        <h1 className="text-3xl font-bold">{movie.title}</h1>
-        <Image
-          className="h-[350px]"
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          width={500}
-          height={200}
-        />
-        <p className="mt-4">{movie.overview}</p>
 
-        <div className="mt-3">
-          {
-            movie?.genres?.map((genres: { id: string, name: string }, i: number) => <div key={i}>
-              <span>genres: {genres.name}</span>
-            </div>)
-          }
+      <div className="flex justify-between py-8">
+
+        <div className="w-1/2">
+          <Image
+            className="h-[350px]"
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            width={500}
+            height={200}
+          />
         </div>
 
 
-        <p className="mt-2">Release Date: {movie.release_date}</p>
-        <p>Rating: {movie.vote_average}/10</p>
+        <div className="w-1/2">
+          <h1 className="text-3xl font-bold">{movie.title}</h1>
+          <p className="mt-4">{movie.overview}</p>
+
+          <div className="mt-3">
+            {
+              movie?.genres?.map((genres: { id: string, name: string }, i: number) => <div key={i}>
+                <span>genres: {genres.name}</span>
+              </div>)
+            }
+          </div>
+          <p className="mt-2">Release Date: {movie.release_date}</p>
+          <p>Rating: {movie.vote_average}</p>
+          <AddAndRemoveButton movie={movie}></AddAndRemoveButton>
+        </div>
+
+
       </div>
 
 
@@ -107,10 +117,6 @@ const MovieDetailsPage = async ({ params }: { params: { id: string } }) => {
           </div>)
         }
       </div>
-
-
-
-
 
 
       <div>

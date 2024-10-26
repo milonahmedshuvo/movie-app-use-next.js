@@ -52,8 +52,12 @@ const Home = () => {
   const [query, setQuery] = useState<string>('')
 
 
+  
+  
 
 
+
+   
 
 
   useEffect(() => {
@@ -112,7 +116,7 @@ const Home = () => {
  
 
   return (
-    <div className='mt-5 mx-10'>
+    <div className='mt-5 mx-3 md:mx-6 lg:mx-10'>
 
       <form className="w-full mb-6">
         <input
@@ -132,6 +136,7 @@ const Home = () => {
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} />
             </Link>
             <h2>{movie.title}</h2>
+            
           </div>
         ))}
       </div>
